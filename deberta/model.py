@@ -1,3 +1,6 @@
+__author__ = '{Nianheng Wu}'
+__credits__ = '{https://github.com/zycdev/L2R2}'
+
 import torch.nn as nn
 from torch.nn import functional as F
 

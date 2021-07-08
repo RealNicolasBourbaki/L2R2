@@ -51,7 +51,7 @@ ALL_MODELS = sum(
 MODEL_CLASSES = {
     'bert': (BertConfig, BertForListRank, BertTokenizer),
     'roberta': (RobertaConfig, RobertaForListRank, RobertaTokenizer),
-    'deberta': (DebertaConfig, DebertaForListRank, DebertaTokenizer)
+    'deberta': (DebertaConfig, DebertaForListRank, DebertaTokenizer) # Add deberta to the menu
 }
 
 
@@ -117,7 +117,7 @@ def train(args, model, tokenizer):
         except ImportError:
             raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
         model, optimizer = amp.initialize(model, optimizer, opt_level=args.fp16_opt_level)
-    '''
+    ''' Change: run code on only one GPU
     # multi-gpu training (should be after apex fp16 initialization)
     if not args.no_cuda and args.n_gpu > 1:
         model = torch.nn.DataParallel(model)

@@ -1,12 +1,22 @@
-# L2R2
+# L2R2 + RoBERTa & DeBERTa
 
-PyTorch implementation of L2R2: Leveraging Ranking for Abductive Reasoning.
+This repository includes the updated code based on [the original L2R2 project](https://github.com/zycdev/L2R2), and is part of [the project CL-Teamlab SS21](https://github.com/esradonmez/CL-teamlab) by Esra Dönmez and Nianheng Wu. It contains the Learn2Rank part of implementation. We adapted the code, so it can run with [DeBERTa](https://arxiv.org/pdf/2006.03654.pdf) (in addition to its original ability of running RoBERTa).
+
+The motivation of using learn2rank framework is in the README part of [the main page of this project](https://github.com/esradonmez/CL-teamlab), and in details in our [final report](https://www.overleaf.com/project/60db2af158962902b55e3ddd).
 
 ## Usage
 
+### Choose the right model
+
+This project support RoBERTa and DeBERTa pretrained model. Go to the corresponding sub-folder after you decided on which model to use.
+
 ### Set up environment
 
-L2R2 is tested on Python 3.6 and PyTorch 1.0.1.
+This project has been tested on Python 3.8 with PyTorch 1.4.0.
+
+We recommend you to create virtual environment for running the code.
+
+**Reminder**: the dependencies for running DeBERTa and RoBERTa are slightly different.
 
 ```shell script
 $ pip install -r requirements.txt
@@ -14,7 +24,7 @@ $ pip install -r requirements.txt
 
 ### Prepare data
 
-[αNLI](https://leaderboard.allenai.org/anli/submissions/get-started)
+Get the dataset released by [αNLI](https://leaderboard.allenai.org/anli/submissions/get-started)
 ```shell script
 $ wget https://storage.googleapis.com/ai2-mosaic/public/alphanli/alphanli-train-dev.zip
 $ unzip -d alphanli alphanli-train-dev.zip
@@ -22,7 +32,7 @@ $ unzip -d alphanli alphanli-train-dev.zip
 
 ### Training
 
-We train the L2R2 models on 4 K80 GPUs. The appropriate batch size on each K80 is 1, so the batch size in our experiment is 4.
+The original code use all GPU for training. In order to avoid taking too much public resource from IMS, we changed the code to only run on one GPU. The changes could be found in ```run.py``` with comment suggesting the changes.
 
 The available `criterion` for optimization could selected in:
 - list_net: list-wise *KLD* loss used in ListNet
@@ -36,11 +46,11 @@ Note that in our experiment, we manually reduce the learning rate instead of usi
 
 For example, we first fine-tune the pre-trained RoBERTa-large model for up to 10 epochs with a learning rate of 5e-6 and save the model checkpoint which performs best on the dev set.
 ```shell script
-$ python run.py \
-  --data_dir=alphanli/ \
+$ CUDA_VISIBLE_DEVICES=[N] python run.py \
+  --data_dir=[where you store the datasets]/ \
   --output_dir=ckpts/ \
-  --model_type='roberta' \
-  --model_name_or_path='roberta-large' \
+  --model_type='roberta' \ # or deberta
+  --model_name_or_path='roberta-large' \ # or "microsoft/deberta-large"
   --linear_dropout_prob=0.6 \
   --max_hyp_num=22 \
   --tt_max_hyp_num=22 \
@@ -101,21 +111,4 @@ $ python run.py \
   --per_gpu_eval_batch_size=1
 ```
 
-### Inference
-```shell script
-$ ./run_model.sh
-```
-
-## Citation
-```
-@inproceedings{10.1145/3397271.3401332,
-  author = {Zhu, Yunchang and Pang, Liang and Lan, Yanyan and Cheng, Xueqi},
-  title = {L2R²: Leveraging Ranking for Abductive Reasoning},
-  year = {2020},
-  url = {https://doi.org/10.1145/3397271.3401332},
-  doi = {10.1145/3397271.3401332},
-  booktitle = {Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval},
-  series = {SIGIR '20}
-}
-```
 
