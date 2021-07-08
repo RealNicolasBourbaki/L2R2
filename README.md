@@ -49,8 +49,8 @@ For example, we first fine-tune the pre-trained RoBERTa-large model for up to 10
 $ CUDA_VISIBLE_DEVICES=[N] python run.py \
   --data_dir=[where you store the datasets]/ \
   --output_dir=ckpts/ \
-  --model_type='roberta' \ # or deberta
-  --model_name_or_path='roberta-large' \ # or "microsoft/deberta-large"
+  --model_type='roberta' \ # or 'deberta'
+  --model_name_or_path='roberta-large' \ # or 'microsoft/deberta-large'
   --linear_dropout_prob=0.6 \
   --max_hyp_num=22 \
   --tt_max_hyp_num=22 \
