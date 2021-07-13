@@ -7,13 +7,13 @@ from tqdm import tqdm
 import torch
 from torch.utils.data import DataLoader, SequentialSampler
 
-from transformers import RobertaTokenizer
+from transformers import DebertaTokenizer
 
-from model import RobertaForListRank
+from model import DebertaForListRank
 from data_process import AlphaNliProcessor, StoryFeatures, AlphaNliDataset
 from utils import RawResult, infer_labels
 
-MODEL_DIR = './checkpoint-best_acc/'
+MODEL_DIR = '/mount/arbeitsdaten/studenten1/team-lab-nlp/group7/nicole/L2R2-deberta/ckpts/H22_L72_E6_B1_LR5e-07_WD0.0_06251755/checkpoint-best_acc/'
 
 logging.basicConfig(format='[%(asctime)s %(levelname)s %(name)s:%(lineno)s] %(message)s',
                     datefmt='%m/%d %H:%M:%S')
@@ -51,7 +51,7 @@ def infer(args, model, tokenizer):
 def load_dataset(samples, tokenizer, max_seq_len):
     examples = AlphaNliProcessor.get_test_examples(samples)
     features = StoryFeatures.convert_from_examples(examples, tokenizer, 2, max_seq_len)
-    dataset = AlphaNliDataset(features)
+    dataset = AlphaNliDataset(features, 22)
     id2example = dict([(e.id, e) for e in examples])
     id2feature = dict([(f.id, f) for f in dataset.features])
 
@@ -77,8 +77,8 @@ def main():
     args.n_gpu = torch.cuda.device_count() if args.cuda else 0
     logger.info("Device: %s, n_gpu: %s", args.device, args.n_gpu)
 
-    tokenizer = RobertaTokenizer.from_pretrained(MODEL_DIR)
-    model = RobertaForListRank.from_pretrained(MODEL_DIR)
+    tokenizer = DebertaTokenizer.from_pretrained(MODEL_DIR)
+    model = DebertaForListRank.from_pretrained(MODEL_DIR)
     model.to(args.device)
     if args.cuda and args.n_gpu > 1:
         model = torch.nn.DataParallel(model)
