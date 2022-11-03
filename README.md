@@ -1,8 +1,8 @@
 # L2R2 + RoBERTa & DeBERTa
 
-This repository includes the updated code based on [the original L2R2 project](https://github.com/zycdev/L2R2), and is part of [the project CL-Teamlab SS21](https://github.com/esradonmez/CL-teamlab) by Esra Dönmez and Nianheng Wu. It contains the Learn2Rank part of implementation. We adapted the code, so it can run with [DeBERTa](https://arxiv.org/pdf/2006.03654.pdf) (in addition to its original ability of running RoBERTa).
+This repository is part of [the project CL-Teamlab SS21](https://github.com/esradonmez/CL-teamlab) by Esra Dönmez and Nianheng Wu. It contains the Learn2Rank part of implementation. We adapted the code, so it can run with [DeBERTa](https://arxiv.org/pdf/2006.03654.pdf) (in addition to its original ability of running RoBERTa).
 
-The motivation of using learn2rank framework is in the README part of [the main page of this project](https://github.com/esradonmez/CL-teamlab), and in details in our [final report](https://www.overleaf.com/project/60db2af158962902b55e3ddd).
+The motivation of using learn2rank framework is in the README part of [the main page of this project](https://github.com/RealNicolasBourbaki/Learn-to-rank-for-Abductive-Reasoning).
 
 ## Usage
 
